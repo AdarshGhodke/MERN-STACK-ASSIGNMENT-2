@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Reverser</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #e9e9e9;
+      }
+      input,
+      button {
+        padding: 8px;
+        margin: 5px 0;
+      }
+      button {
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Number Reverser</h1>
+      <p>Enter a number to reverse it:</p>
+
+      <input type="number" id="inputNumber" placeholder="Enter a number" />
+      <button onclick="reverseAndDisplay()">Reverse</button>
+
+      <div class="result" id="result">
+        <p>Result will appear here</p>
+      </div>
+    </div>
+
+    <script>
+      function reverseNumber(num) {
+        return parseInt(num.toString().split("").reverse().join(""));
+      }
+
+      function reverseAndDisplay() {
+        // Get input value
+        const inputValue = document.getElementById("inputNumber").value;
+
+        if (inputValue === "" || isNaN(inputValue)) {
+          document.getElementById("result").innerHTML =
+            '<p style="color: red;">Please enter a valid number</p>';
+          return;
+        }
+
+        // Reverse the number
+        const reversed = reverseNumber(inputValue);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `<p>Original Number: <strong>${inputValue}</strong></p>
+                <p>Reversed Number: <strong>${reversed}</strong></p>`;
+      }
+    </script>
+  </body>
+</html>

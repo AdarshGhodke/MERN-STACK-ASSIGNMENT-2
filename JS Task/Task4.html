@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Date and Time Display</title>
+    <style>
+      body {
+        font-family: serif;
+        margin: 20px;
+      }
+      button {
+        padding: 5px 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #000;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      .result {
+        margin-top: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button onclick="showDate()">show date</button>
+      <div id="dateResult" class="result"></div>
+    </div>
+
+    <div>
+      <button onclick="showTime()">show Time</button>
+      <div id="timeResult" class="result"></div>
+    </div>
+
+    <script>
+      function showDate() {
+        const today = new Date();
+        const day = today.getDate();
+
+        // Get month name
+        const monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        const month = monthNames[today.getMonth()];
+
+        const year = today.getFullYear();
+
+        // Format: day/Month/Year
+        const formattedDate = day + "/" + month + "/" + year;
+
+        document.getElementById("dateResult").textContent = formattedDate;
+      }
+
+      function showTime() {
+        const now = new Date();
+
+        // Get the timezone offset
+        const offset = now.getTimezoneOffset();
+        const offsetHours = Math.abs(Math.floor(offset / 60));
+        const offsetMinutes = Math.abs(offset % 60);
+
+        const offsetSign = offset < 0 ? "+" : "-";
+        const offsetFormatted =
+          offsetSign +
+          String(offsetHours).padStart(2, "0") +
+          String(offsetMinutes).padStart(2, "0");
+
+        // Get day name
+        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const dayName = dayNames[now.getDay()];
+
+        const monthAbbr = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        const month = monthAbbr[now.getMonth()];
+
+        const day = String(now.getDate()).padStart(2, "0");
+        const year = now.getFullYear();
+
+        // Format time
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+
+        let timezoneName = "Local Time";
+        if (offsetFormatted === "+0530") {
+          timezoneName = "India Standard Time";
+        } else {
+          // Try to get the timezone name
+          try {
+            timezoneName = Intl.DateTimeFormat()
+              .resolvedOptions()
+              .timeZone.split("/")
+              .pop()
+              .replace("_", " ");
+          } catch (e) {
+            // Fallback to generic timezone name
+            timezoneName = offset === 0 ? "GMT" : "Local Time";
+          }
+        }
+
+        const formattedTime = `${dayName} ${month} ${day} ${year} ${hours}:${minutes}:${seconds} GMT${offsetFormatted} (${timezoneName})`;
+
+        document.getElementById("timeResult").textContent = formattedTime;
+      }
+    </script>
+  </body>
+</html>
